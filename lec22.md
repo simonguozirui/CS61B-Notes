@@ -1,3 +1,5 @@
+
+
 # Lec 22 Game tree
 
 ### Generate and Test
@@ -131,3 +133,108 @@ These two functions alternatively call each other until depth is exhausted, then
 
 
 If alpha and beta cross, there is no point in going any further. We exceeded the value that the other player is going to accept.
+
+
+
+
+
+#### Pseudocode :
+
+```
+function minimax(node, depth, isMaximizingPlayer, alpha, beta):
+
+    if node is a leaf node :
+        return value of the node
+    
+    if isMaximizingPlayer :
+        bestVal = -INFINITY 
+        for each child node :
+            value = minimax(node, depth+1, false, alpha, beta)
+            bestVal = max( bestVal, value) 
+            alpha = max( alpha, bestVal)
+            if beta <= alpha:
+                break
+        return bestVal
+
+    else :
+        bestVal = +INFINITY 
+        for each child node :
+            value = minimax(node, depth+1, true, alpha, beta)
+            bestVal = min( bestVal, value) 
+            beta = min( beta, bestVal)
+            if beta <= alpha:
+                break
+        return bestVal
+```
+
+
+
+Start calling this function by `minimax(0, 0, true, -INFINITY, +INFINITY)`.
+
+
+
+**Sample Java Implementation**
+
+Source: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+
+```java
+/ Initial values of 
+// Aplha and Beta 
+static int MAX = 1000`; 
+static int` `MIN = -``1000``; 
+ 
+// Returns optimal value for 
+// current player (Initially called 
+// for root and maximizer) 
+static` `int` `minimax(``int` `depth, ``int` `nodeIndex, 
+          ``Boolean maximizingPlayer, 
+          ``int` `values[], ``int` `alpha, 
+          ``int` `beta) 
+{ 
+  ``// Terminating condition. i.e 
+  ``// leaf node is reached 
+  ``if` `(depth == ``3``) 
+    ``return` `values[nodeIndex]; 
+ 
+  ``if` `(maximizingPlayer) 
+  ``{ 
+    ``int` `best = MIN; 
+ 
+    ``// Recur for left and 
+    ``// right children 
+    ``for` `(``int` `i = ``0``; i < ``2``; i++) 
+    ``{ 
+      ``int` `val = minimax(depth + ``1``, nodeIndex * ``2` `+ i, 
+               ``false``, values, alpha, beta); 
+      ``best = Math.max(best, val); 
+      ``alpha = Math.max(alpha, best); 
+ 
+      ``// Alpha Beta Pruning 
+      ``if` `(beta <= alpha) 
+        ``break``; 
+    ``} 
+    ``return` `best; 
+  ``} 
+  ``else
+  ``{ 
+    ``int` `best = MAX; 
+ 
+    ``// Recur for left and 
+    ``// right children 
+    ``for` `(``int` `i = ``0``; i < ``2``; i++) 
+    ``{ 
+       
+      ``int` `val = minimax(depth + ``1``, nodeIndex * ``2` `+ i, 
+               ``true``, values, alpha, beta); 
+      ``best = Math.min(best, val); 
+      ``beta = Math.min(beta, best); 
+ 
+      ``// Alpha Beta Pruning 
+      ``if` `(beta <= alpha) 
+        ``break``; 
+    ``} 
+    ``return` `best; 
+  ``} 
+} 
+```
+

@@ -51,7 +51,7 @@ Time is logarithmic to the number of nodes (as worst case go to the top and we s
 
 **Removing** the largest node    
 
-move bottommost, rightmost node to to, then re-heapify down as needed (swap offending node with larger child) to re-establish heap property. We do this to guarantee the shape of the heap.
+move bottommost, rightmost node to top, then re-heapify down as needed (swap offending node with larger child) to re-establish heap property. We do this to guarantee the shape of the heap.
 
 Each stage look at two nodes, two operations + swap each level, total amount of time required is proportional to log N
 
@@ -162,3 +162,50 @@ static <T extends Comparable<T>> Comparator<T> reverseOrder() {
 }
 ```
 
+
+
+### Heapify
+
+Sure! Let's go through an example: 
+
+```
+           A               // level 0
+        /      \
+       B        C          // level 1
+     /   \    /   \
+   D       E F      G      // level 2
+  / \     /| |\    /  \
+ H  I    J K L M   N   O   // level 3
+```
+
+Let's just use this example tree where we refer to each node by its letter. It has 4 levels and 15 nodes. If we want to heapify, we would bubble down everything in the lower levels and then the upper levels, i.e. level 3 nodes (H-O) are bubbled down first, then level 2 (D-G), then level 1 (B-C), and then level 0 (A). We start at N/2 because we're assuming that that's the index of the first node on the bottom level (H) which is what we actually want to start at. If we bubble down in this level order, we can ensure the final heap maintains the heap property. When we bubble down, the amount of operations it should take is proportional to how far from the bottom of the tree each node is. Nodes in level 3 can swap down at most 0 times. Nodes in level 2 swap down at most 1 time. Nodes in level 1 swap down at most 2 times. Nodes in level 0 swap down at most 3 times. Let's assume worst case, so each node ends up swapping down as much as it can. Then the total number of swap operations would be
+
+ 
+
+```
+ (# nodes in level 3) * 0 + (# nodes in level 2) * 1 + (# nodes in level 1) * 2 + (# nodes in level 0) * 3 
+= 8 * 0 + 4 * 1 + 2 * 2 + 1 * 3 
+= 11
+```
+
+ 
+
+In other words, half the nodes don't even swap down at all since they're at the bottom already, half of the remaining swap down at most once, half of the remaining swap down at most twice, and so on. This happens to follow a pattern where if you sum up the number of swaps, the maximum number of swaps is O(N).
+
+ 
+
+For a heap with height h (the tree above has height 4), the summation would be
+
+ 
+
+```
+(# nodes in level h-1) * 0 + (# nodes in level h-2) * 1 + (@ nodes in level h-3) * 2 + ... + (# nodes in level 0) * (h-1) 
+= N/2 * 0 + N/4 * 1 + N/8 * 2 + ... + 1 * h-1
+= some number that is O(N)
+```
+
+ 
+
+\----
+
+Now the reason why in heapify we start at the bottom levels and then bubble down (heapify down) versus starting at the top levels and bubbling up (heapify up) is that the former is more time efficient. To hint at why that would be: There are about N/2 nodes in the bottom level of the heap. If we have to bubble all of them down (heapify down), that would be at most 0 swaps per node. If we had to bubble them up (heapify up), that would be at most h -1 swaps per node. There is only 1 node at the very top of the heap. If we had to bubble it down (heapify down), it would take at most h-1 swaps. If we had to bubble it up (heapify up), it would take at most 0 swaps. Knowing that, which method seems more efficient? The method where you make the 1 root node swap down at most h-1 times (heapify down), or the method where you make N/2 nodes swap up at most h-1 times (heapify up)?
