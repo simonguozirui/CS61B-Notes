@@ -104,7 +104,7 @@ Also pass alpha and beta limits:
 - High player does not care about exploring a position further once he knows its value is larger than what the minimizing player knows he can get (beta), because the minimizing player will never allow that position to come about
 - Likewise, minimizing player won't explore a positions whose value is less than what the maximizing player knows he can get (alpha)
 
-![Alpha-Beta Pruning](C:\Users\simon\OneDrive\Desktop\CS61B\Notes\alpha-beta-pruning.PNG)
+![Alpha-Beta Pruning](./figures/alpha-beta-pruning.PNG)
 
 
 

@@ -195,4 +195,4 @@ Hashing is not a good idea for small sets that you rapidly create and discard, a
 
 
 
-![Search Structure Time](C:\Users\simon\OneDrive\Desktop\CS61B\Notes\search-operation-time.PNG)
+![Search Structure Time](./figures/search-operation-time.PNG)
